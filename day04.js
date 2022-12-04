@@ -47,6 +47,6 @@ const getNumbersFromGroupItem = (groupItem) => {
   };
 
 // Results puzzle 2
-  console.log("Part 1 example: ", countOverlaps(exampleInput));
-  console.log("Part 1 real: ", countOverlaps(realInput));
+  console.log("Part 2 example: ", countOverlaps(exampleInput));
+  console.log("Part 2 real: ", countOverlaps(realInput));
 

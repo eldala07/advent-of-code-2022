@@ -14,4 +14,3 @@ console.log("Part 1 real: ", a);
 // Results puzzle 2
 console.log("Part 2 example: ", a);
 console.log("Part 2 real: ", a);
-
