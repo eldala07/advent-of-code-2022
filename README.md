@@ -17,3 +17,5 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 **05** - Elves rearranging stacks of crates thanks to giant cargo crane.
 
 **06** - Elves fixing malfunctioning communication system.
+
+**07** - 
