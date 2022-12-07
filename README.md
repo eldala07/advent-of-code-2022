@@ -18,4 +18,6 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 
 **06** - Elves fixing malfunctioning communication system.
 
-**07** - 
+**07** - Elves freeing up disk space to install software update!!
+
+**08** - 
