@@ -20,4 +20,4 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 
 ✅ -- **07** - Elves freeing up disk space to install software update!!
 
-⏳ -- **08** - 
+⏳ -- **08** - Elves planning to build a treehouse ..
