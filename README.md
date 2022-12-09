@@ -22,5 +22,7 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 
 ✅ -- **08** - Elves planning to build a treehouse ..
 
-⏳ -- **09** - 
+✅ -- **09** - Elves dangerously crossing bridges.
+
+⏳ -- **10** - 
 
