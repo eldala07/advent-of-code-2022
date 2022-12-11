@@ -26,6 +26,8 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 
 ✅ -- **10** - I'm checking the message on the screen of the Elves' communication system!
 
-⏳ -- **11** - 
+⏳ -- **11** - Monkeys are stealing and throwing Elves' items!! 
+
+⏳ -- **12** - 
 
 
