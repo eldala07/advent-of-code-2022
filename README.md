@@ -26,9 +26,9 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 
 ✅✅ -- **10** - Checking the message on the screen of the Elves' communication system!
 
-✅✅ -- **11** - Monkeys are stealing and throwing Elves' items!! 
+✅💡 &nbsp;-- **11** - Monkeys are stealing and throwing Elves' items!! | _hint needed_
 
-✅💡 &nbsp;-- **12** - Elves finding shortest path to best energy point for the communication device.. | _hint needed_
+✅✅ -- **12** - Elves finding shortest path to best energy point for the communication device..
 
 ✅✅ -- **13** - Trying to decode the signal sent by the elves! 
 
