@@ -28,6 +28,8 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 
 ✅ -- **11** - Monkeys are stealing and throwing Elves' items!! 
 
-⏳ -- **12** - 
+✅ -- **12** - Elves finding shortest path to best energy point for the communication device..
+
+⏳ -- **13** - 
 
 
