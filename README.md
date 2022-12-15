@@ -32,6 +32,8 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 
 ✅✅ -- **13** - Trying to decode the signal sent by the elves! 
 
-⏳⏳&nbsp;&nbsp;&nbsp; -- **14** - 
+✅✅ -- **14** - Checkin' the sand pouring from a source into a cave..
+
+⏳⏳&nbsp;&nbsp;&nbsp; -- **15** - 
 
 
