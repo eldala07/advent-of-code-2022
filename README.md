@@ -34,6 +34,6 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 
 ✅✅ -- **14** - Checkin' the sand pouring from a source into a cave..
 
-⏳⏳&nbsp;&nbsp;&nbsp; -- **15** - 
+✅✅ -- **15** - The distress signal is coming from an hidden beacon! We have to locate it..
 
-
+⏳⏳&nbsp;&nbsp;&nbsp; -- **16** - 
