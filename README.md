@@ -37,3 +37,5 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 ✅✅ -- **15** - The distress signal is coming from an hidden beacon! We have to locate it..
 
 ⏳⏳&nbsp;&nbsp;&nbsp; -- **16** - Escaping the elephants from the ̶c̶a̶v̶e̶ volcano..
+
+✅⏳&nbsp;&nbsp; -- **17** - Rocks are falling from the chamber above!!
