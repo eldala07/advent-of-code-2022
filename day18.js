@@ -63,6 +63,54 @@ const partOne = input => {
 	return numberOfFreeFaces;
 };
 
+// Strategy for part two:
+// 1. Create a cube englobing all the cubes
+// 2. For each cube, if it is not a cube from the initial set and if the cube is not on the border of the englobing cube
+// 2.1 Check if the cube can be reached from the outside of the englobing cube
+// 2.2 If it can, do nothing
+// 2.3 If it can't, check if this cube is adjacent to one or several cubes from the initial set
+// 2.4 If it is, for each cube adjacent to the current cube, do minus 1 to the number of free faces
+
+const createEnglobingCube = input => {
+	let xMin = Infinity;
+	let xMax = -Infinity;
+	let yMin = Infinity;
+	let yMax = -Infinity;
+	let zMin = Infinity;
+	let zMax = -Infinity;
+	input.forEach(cube => {
+		if(cube[0] < xMin) xMin = cube[0];
+		if(cube[0] > xMax) xMax = cube[0];
+		if(cube[1] < yMin) yMin = cube[1];
+		if(cube[1] > yMax) yMax = cube[1];
+		if(cube[2] < zMin) zMin = cube[2];
+		if(cube[2] > zMax) zMax = cube[2];
+	});
+	return [xMin, xMax, yMin, yMax, zMin, zMax];
+}
+
+const checkIfCubeIsOnBorder = (cube, englobingCube) => {
+	const [xMin, xMax, yMin, yMax, zMin, zMax] = englobingCube;
+	const [x, y, z] = cube;
+	if (x === xMin || x === xMax || y === yMin || y === yMax || z === zMin || z === zMax) {
+		return true;
+	}
+	return false;
+}
+
+const checkIfCubeIsFromInitialSet = (cubeInput, input) => {
+	input.forEach((cube) => {
+		if (arraysEqual(cubeInput, cube)) {
+			return true;
+		}
+	});
+	return false;
+}
+
+const checkIfCubeIsReachableFromOutside = (cubeInput, input) => {
+
+}
+
 console.log("PART 1 - example: ", partOne(exampleInput));
 console.log("PART 1 - real: ", partOne(realInput));
 
