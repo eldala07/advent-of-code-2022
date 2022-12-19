@@ -61,7 +61,7 @@ const exampleInput = [
     return acc;
   }, {});
   
-  const checkIfEnoughResourcesAndCompute = (needed, available) => {
+  const checkIfEnoughResourcesAndCompute = (needed, available, extractors, robotType) => {
     const neededArr = Object.values(needed);
     const availableArr = Object.values(available);
     const enoughResources = availableArr.every((av, index) => av >= neededArr[index]);
@@ -69,6 +69,20 @@ const exampleInput = [
   
     if (enoughResources) {
       updatedResources = availableArr.map((item, index) => item - neededArr[index]);
+      const extractorsCpy = {
+            ore: {...extractors[ORE]},
+            clay: {...extractors[CLAY]},
+            obsidian: {...extractors[OBSIDIAN]},
+            geode: {...extractors[GEODE]},
+        };
+        collectResources(extractorsCpy);
+        collectResources(extractorsCpy);
+        const simulatedRobotType = robotType === ORE ? CLAY : robotType === CLAY ? OBSIDIAN : robotType === OBSIDIAN ? GEODE : null;
+        const [shouldWaitOneMinute] = simulatedRobotType ? canCreate(simulatedRobotType, extractorsCpy) : [false];
+      console.log(shouldWaitOneMinute);
+      if (shouldWaitOneMinute) {
+        return [false, {}];
+      }
     }
     return [enoughResources, updatedResources];
   };
@@ -82,14 +96,15 @@ const exampleInput = [
   
   const canCreate = (robotType, extractors) => {
     const nbRobots = extractors[robotType].nbRobots;
-    if (robotType !== GEODE && nbRobots >= extractors[robotType].strategyFactor)  { return [false, {}];
-                                                                                             }
+    if (robotType !== GEODE && nbRobots >= extractors[robotType].strategyFactor)  { 
+        return [false, {}];
+    }
     let resourcesNeeded = extractors[robotType].robotCost;
     let resourcesAvailable = getAvailableResources(extractors);
     console.log("res ne:", resourcesNeeded)
     console.log("res av:", resourcesAvailable)
   
-    return checkIfEnoughResourcesAndCompute(resourcesNeeded, resourcesAvailable);
+    return checkIfEnoughResourcesAndCompute(resourcesNeeded, resourcesAvailable, extractors, robotType);
   };
   
   const createRobot = (extractors) => {
@@ -159,7 +174,10 @@ const exampleInput = [
           nbRobots: 1,
           nbInactiveRobots: 0,
           robotCost: blueprint[ORE],
-          strategyFactor: Math.ceil(blueprint[CLAY][ORE] / 4), //TODO: remove and fix this, strategy has to be chosen upfront ?
+          strategyFactor: Math.ceil(blueprint[CLAY][ORE] / 4), 
+          //TODO: remove and fix this, strategy has to be chosen upfront ?
+          //TODO: potentially train a model to find the best parameters for each blueprint?
+          //TODO: Or maybe if next extraction could lead to a better robot, wait 1 minute before creating?
           collectingPower: 1,
         },
         clay: {
@@ -199,7 +217,7 @@ const exampleInput = [
       console.log(`qual levels: `, blueprintsQualityLevels);
   
     });
-    return Object.values(blueprintsQualityLevels).reduce((acc, val) => acc + val, 0);
+    return Object.values(blueprintsQualityLevels).reduce((acc, val, index) => acc + val * (index + 1), 0);
   };
   
   console.log("PART 1 - example: ", partOne(exampleInput, 24));
