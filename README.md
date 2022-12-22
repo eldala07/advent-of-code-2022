@@ -43,3 +43,7 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 ✅⏳&nbsp;&nbsp; -- **18** - Checkin' if lava droplets will become obsidian.
 
 ⏳⏳&nbsp;&nbsp;&nbsp; -- **19** - Collecting minerals thanks to robots..
+
+⏳⏳&nbsp;&nbsp;&nbsp; -- **20** - Decrypting the elves' grooves coordinates..
+
+✅⏳&nbsp;&nbsp; -- **21** - Trying to anticipate what monkeys are yelling!
