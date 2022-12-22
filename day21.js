@@ -131,22 +131,28 @@ const determineRootChildWithoutHumn = nodes => {
   return value;
 };
 
-const isHumnSubBranch = (start, nodes) => {
+const isHumnSubBranch = (start, nodeName, nodes) => {
+  if (nodeName === "humn") return true;
   if (start.neighbors?.length === 0) {
     return false;
   }
-  if (["humn"].includes(start.neighbors)) {
+  if (start.neighbors.some(monkey => monkey === "humn")) {
     return true;
   }
-  return isHumnSubBranch(nodes[start.neighbors[0]], nodes) || isHumnSubBranch(nodes[start.neighbors[1]], nodes);
+  return isHumnSubBranch(nodes[start.neighbors[0]], start.neighbors[0], nodes) || isHumnSubBranch(nodes[start.neighbors[1]], start.neighbors[1], nodes);
 };
 
-const nodesFillTraversal = (start, nodes, end) => {
-  // console.log(start);
+const nodesFillTraversal = (start, nodes, end ) => {
   if (start.neighbors?.length === 0 || (!!end && start === end)) {
     return start.value;
   }
   const neighbors = start.neighbors;
+  const isHumnSsub = isHumnSubBranch(nodes[neighbors[0]], neighbors[0], nodes);
+    if (isHumnSsub) {
+      nodes[neighbors[1]].value = nodesTraversal(nodes[neighbors[1]], nodes);
+    } else {
+      nodes[neighbors[0]].value = nodesTraversal(nodes[neighbors[0]], nodes);
+    }
   if ([NaN, "unset"].includes(nodes[neighbors[0]].value)) { //FIXME 0, is tricky value here
     switch (start.operator) {
       case "+":
@@ -181,14 +187,7 @@ const nodesFillTraversal = (start, nodes, end) => {
       default:
         return 0;
     }
-  } else {
-    if (isHumnSubBranch(nodes[neighbors[0]], nodes)) {
-      nodes[neighbors[1]].value = nodesTraversal(nodes[neighbors[1]], nodes);
-    } else {
-      nodes[neighbors[0]].value = nodesTraversal(nodes[neighbors[0]], nodes);
-    }
-    return nodesFillTraversal(start, nodes, end);
-  }
+  } 
 };
 
 const partTwo = (input) => {
@@ -201,8 +200,6 @@ const partTwo = (input) => {
   const [rootChildWithoutHumn, rootChildWithHumn] = [NaN].includes(detVal) ? [nodes.root.neighbors[1], nodes.root.neighbors[0]] : [nodes.root.neighbors[0], nodes.root.neighbors[1]];
 
   const equalityValue = nodesTraversal(nodes[rootChildWithoutHumn], nodes);
-
-  console.log(equalityValue);
 
   nodes[rootChildWithoutHumn].parent = null;
   nodes[rootChildWithHumn].parent = null;

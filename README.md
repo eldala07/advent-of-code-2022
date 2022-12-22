@@ -46,4 +46,4 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 
 ⏳⏳&nbsp;&nbsp;&nbsp; -- **20** - Decrypting the elves' grooves coordinates..
 
-✅⏳&nbsp;&nbsp; -- **21** - Trying to anticipate what monkeys are yelling!
+✅✅&nbsp;&nbsp; -- **21** - Trying to anticipate what monkeys are yelling!
