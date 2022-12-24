@@ -89,30 +89,147 @@ const createEnglobingCube = input => {
 	return [xMin, xMax, yMin, yMax, zMin, zMax];
 }
 
-const checkIfCubeIsOnBorder = (cube, englobingCube) => {
-	const [xMin, xMax, yMin, yMax, zMin, zMax] = englobingCube;
+const checkIfCubeIsFromInitialSet = (cube, input) => {
+	let isFromInitialSet = false;
+	for (let i = 0; i < input.length; i++) {
+		if (arraysEqual(cube, input[i])) {
+			isFromInitialSet = true;
+			break;
+		}
+	}
+	return isFromInitialSet;
+}
+
+const getNumberOfAdjacentCubesFromInitialSet = (cube, input) => {
+	let numberOfAdjacentCubes = 0;
 	const [x, y, z] = cube;
-	if (x === xMin || x === xMax || y === yMin || y === yMax || z === zMin || z === zMax) {
-		return true;
+	const adjacentCubes = [
+		[x - 1, y, z],
+		[x + 1, y, z],
+		[x, y - 1, z],
+		[x, y + 1, z],
+		[x, y, z - 1],
+		[x, y, z + 1],
+	];
+	adjacentCubes.forEach(adjacentCube => {
+		input.forEach((cube) => {
+			if (arraysEqual(cube, adjacentCube)) {
+				numberOfAdjacentCubes++;
+			}
+		});
+	});
+	return numberOfAdjacentCubes;
+};
+
+const countCubes = (input) => {
+	return input.length;
+}
+
+const getPossibleDirections = (cube, input, englobingCube) => {
+	const [x, y, z] = cube;
+
+	const initialPossibleDirections = [
+		[x - 1, y, z],
+		[x + 1, y, z],
+		[x, y - 1, z],
+		[x, y + 1, z],
+		[x, y, z - 1],
+		[x, y, z + 1],
+	];
+	const indexesToRemove = [];
+	initialPossibleDirections.forEach((pos, index) => {
+		input.forEach((cube) => {
+			if (arraysEqual(cube, pos) || checkIfCubeIsBeyondBorder(pos, englobingCube)) {
+				indexesToRemove.push(index);
+			}
+		});
+	});
+	return initialPossibleDirections.filter((_, index) => !indexesToRemove.includes(index));
+}
+
+const cubeToString = (cube) => {
+	return cube.join(',');
+}
+
+const checkIfCubeIsReachableFromOutsideBFS = (start, end, input, globalVisited, englobingCube) => {
+	const visited = new Set();
+	const queue = [start];
+
+	while (queue.length > 0) {
+		const currentCube = queue.shift();
+		const dirs = getPossibleDirections(currentCube, input, englobingCube);
+
+		for (const dir of dirs) {
+			if (arraysEqual(dir, end)) {
+				return true;
+			}
+
+			const dirString = cubeToString(dir);
+			if (!visited.has(dirString)) {
+				visited.add(dirString);
+				globalVisited.add(dirString);
+				queue.push(dir);
+			}
+		}
 	}
 	return false;
 }
 
-const checkIfCubeIsFromInitialSet = (cubeInput, input) => {
-	input.forEach((cube) => {
-		if (arraysEqual(cubeInput, cube)) {
-			return true;
-		}
-	});
-	return false;
+const checkIfCubeIsOnBorderOrBeyond = (cube, englobingCube) => {
+	const [x, y, z] = cube;
+	const [xMin, xMax, yMin, yMax, zMin, zMax] = englobingCube;
+	return x <= xMin - 1 || x >= xMax + 1 || y <= yMin - 1 || y >= yMax + 1 || z <= zMin - 1 || z >= zMax + 1;
 }
 
-const checkIfCubeIsReachableFromOutside = (cubeInput, input) => {
-
+const checkIfCubeIsBeyondBorder = (cube, englobingCube) => {
+	const [x, y, z] = cube;
+	const [xMin, xMax, yMin, yMax, zMin, zMax] = englobingCube;
+	return x <= xMin - 2 || x >= xMax + 2 || y <= yMin - 2 || y >= yMax + 2 || z <= zMin - 2 || z >= zMax + 2;
 }
 
 console.log("PART 1 - example: ", partOne(exampleInput));
 console.log("PART 1 - real: ", partOne(realInput));
 
-// console.log("PART 2 - example: ", partTwo(exampleInput));
-// console.log("PART 2 - real: ", partTwo(realInput));
+const partTwo = input => {
+	const nbFreeFaces = partOne(input);
+	const englobingCube = createEnglobingCube(input);
+	const [xMin, xMax, yMin, yMax, zMin, zMax] = englobingCube;
+	const englobingCubeCubes = [];
+	for (let x = xMin - 1; x <= xMax + 1; x++) {
+		for (let y = yMin - 1; y <= yMax + 1; y++) {
+			for (let z = zMin - 1; z <= zMax + 1; z++) {
+				englobingCubeCubes.push([x, y, z]);
+			}
+		}
+	}
+
+	let numberOfFacesToRemove = 0;
+	let alreadyComputedCubes = new Set();
+	englobingCubeCubes.forEach((cube) => {
+		const cubeString = cubeToString(cube);
+		if (!checkIfCubeIsFromInitialSet(cube, input) && !alreadyComputedCubes.has(cubeString) && !checkIfCubeIsOnBorderOrBeyond(cube, englobingCube)) {
+				const globalVisited = new Set();
+				if(!globalVisited.has(cubeString)) {
+					globalVisited.add(cubeString);
+				}
+				const isReachableFromOutside = checkIfCubeIsReachableFromOutsideBFS(cube, [xMin - 1, yMin - 1, zMin - 1], input, globalVisited, englobingCube);
+				alreadyComputedCubes = new Set([...alreadyComputedCubes, ...globalVisited]);
+				if (!isReachableFromOutside) {
+					globalVisited.forEach(visitedCube => {
+						const [x, y, z] = visitedCube.split(',').map(Number);
+						const numberOfAdjacentCubesFromInitialSet = getNumberOfAdjacentCubesFromInitialSet([x, y, z], input);
+						if (numberOfAdjacentCubesFromInitialSet > 0) {
+							numberOfFacesToRemove += numberOfAdjacentCubesFromInitialSet;
+						}
+					});
+				}
+
+		}
+	});
+	return nbFreeFaces - numberOfFacesToRemove;
+}
+
+console.log("PART 2 - example: ", partTwo(exampleInput));
+console.log("PART 2 - real: ", partTwo(realInput));
+
+// LESSONS LEARNED: js Set don't check correctly unicity of arrays, so I had to convert them to string
