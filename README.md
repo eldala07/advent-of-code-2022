@@ -36,22 +36,22 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 
 ✅✅ -- **15** - The distress signal is coming from an hidden beacon! We have to locate it..
 
-⏳⏳&nbsp;&nbsp;&nbsp; -- **16** - Escaping the elephants from the ̶c̶a̶v̶e̶ volcano..
+⏳⏳&nbsp;&nbsp; -- **16** - Escaping the elephants from the ̶c̶a̶v̶e̶ volcano..
 
 ✅⏳&nbsp;&nbsp; -- **17** - Rocks are falling from the chamber above!!
 
-✅⏳&nbsp;&nbsp; -- **18** - Checkin' if lava droplets will become obsidian.
+✅✅ -- **18** - Checkin' if lava droplets will become obsidian.
 
-⏳⏳&nbsp;&nbsp;&nbsp; -- **19** - Collecting minerals thanks to robots..
+⏳⏳&nbsp;&nbsp; -- **19** - Collecting minerals thanks to robots..
 
 ✅⏳&nbsp;&nbsp; -- **20** - Decrypting the elves' grooves coordinates..
 
 ✅✅&nbsp;&nbsp; -- **21** - Trying to anticipate what monkeys are yelling!
 
-⏳⏳&nbsp;&nbsp;&nbsp; -- **22** - Following the path given in the monkeys' notes..
+⏳⏳&nbsp;&nbsp; -- **22** - Following the path given in the monkeys' notes..
 
 ✅✅&nbsp;&nbsp; -- **23** - Elves trying to cover the more space as possible!!
 
-⏳⏳&nbsp;&nbsp;&nbsp; -- **24** - The expedition is trying to find a way out of an area full of tornados..
+⏳⏳&nbsp;&nbsp; -- **24** - The expedition is trying to find a way out of an area full of tornados..
 
 ✅⏳&nbsp;&nbsp;&nbsp; -- **25** - Determining SNAFU number to input the Bob's console!
