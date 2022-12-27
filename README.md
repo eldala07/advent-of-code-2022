@@ -53,3 +53,5 @@ Solutions of the 25 enigmas of the event Advent of Code 2022
 ✅✅&nbsp;&nbsp; -- **23** - Elves trying to cover the more space as possible!!
 
 ⏳⏳&nbsp;&nbsp;&nbsp; -- **24** - The expedition is trying to find a way out of an area full of tornados..
+
+✅⏳&nbsp;&nbsp;&nbsp; -- **25** - Determining SNAFU number to input the Bob's console!
