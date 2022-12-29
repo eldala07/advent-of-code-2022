@@ -6,75 +6,66 @@ const transformInput = input => ({ ...input });
 const transformInputAndApplyDecriptionKey = (input, decriptionKey) => ({ ...input.map(el => el * decriptionKey) });
 
 const computeNewIndex = (newIndex, arrLength) => {
-  let resultIndex = newIndex;
-  while (resultIndex > arrLength - 1 || resultIndex <= 0) {
-    if (resultIndex > arrLength - 1) {
-      resultIndex = resultIndex + 1 - (arrLength);
-    } else if (resultIndex <= 0) {
-      resultIndex = resultIndex + arrLength - 1
-    }
-  }
-  return resultIndex;
+	return newIndex % (arrLength - 1)
 };
 
 const computeResult = (zeroIndex, resultArr, arrLength) => {
-  const index1000 = computeNewIndex((1000 + zeroIndex) % arrLength, arrLength);
-  const index2000 = computeNewIndex((2000 + zeroIndex) % arrLength, arrLength);
-  const index3000 = computeNewIndex((3000 + zeroIndex) % arrLength, arrLength);
-  const val1 = Object.values(resultArr[index1000])[0];
-  const val2 = Object.values(resultArr[index2000])[0];
-  const val3 = Object.values(resultArr[index3000])[0];
-  return val1 + val2 + val3;
+	const index1000 = computeNewIndex((1000 + zeroIndex) % arrLength, arrLength);
+	const index2000 = computeNewIndex((2000 + zeroIndex) % arrLength, arrLength);
+	const index3000 = computeNewIndex((3000 + zeroIndex) % arrLength, arrLength);
+	const val1 = Object.values(resultArr[index1000])[0];
+	const val2 = Object.values(resultArr[index2000])[0];
+	const val3 = Object.values(resultArr[index3000])[0];
+	return val1 + val2 + val3;
 };
 
 
 const partOne = input => {
-  const transInput = transformInput(input);
-  const resultArr = input.map((el, index) => ({ [index]: el }));
+	const transInput = transformInput(input);
+	const resultArr = input.map((el, index) => ({ [index]: el }));
 
-  for (let i = 0; i <= resultArr.length - 1; i++) {
-    const value = transInput[i];
-    const key = i;
+	for (let i = 0; i <= resultArr.length - 1; i++) {
+		const value = transInput[i];
+		const key = i;
 
-    const currIndex = resultArr.findIndex(el => parseInt(Object.keys(el)[0]) === parseInt(key));
-    const newIndex = currIndex + value;
-    const normalizedNewIndex = computeNewIndex(newIndex, resultArr.length);
-    const el = resultArr.splice(currIndex, 1);
-    resultArr.splice(normalizedNewIndex, 0, el[0]);
+		const currIndex = resultArr.findIndex(el => parseInt(Object.keys(el)[0]) === parseInt(key));
+		const newIndex = currIndex + value;
+		const normalizedNewIndex = computeNewIndex(newIndex, resultArr.length);
+		const el = resultArr.splice(currIndex, 1);
+		resultArr.splice(normalizedNewIndex, 0, el[0]);
 
-  }
-  const zeroIndex = resultArr.findIndex(el => parseInt(Object.values(el)[0]) === 0);
+	}
+	const zeroIndex = resultArr.findIndex(el => parseInt(Object.values(el)[0]) === 0);
 
-  return computeResult(zeroIndex, resultArr, resultArr.length);
+	return computeResult(zeroIndex, resultArr, resultArr.length);
 };
 
-console.log(partOne(exampleInput));
-console.log(partOne(realInput));
+console.log("PART 1 - example: ", partOne(exampleInput));
+console.log("PART 1 - real: ", partOne(realInput));
 
 const partTwo = (input) => {
-  const decriptionKey = 811589153;
-  const transInput = transformInputAndApplyDecriptionKey(input, decriptionKey);
-  const resultArr = input.map((el, index) => ({ [index]: el * decriptionKey }));
-  
-  for (let j = 0; j <= 9; j++) {
-    console.log("Iteration: ", j+1);
-    for (let i = 0; i <= resultArr.length - 1; i++) {
-      const value = transInput[i];
-      const key = i;
+	const decriptionKey = 811589153;
+	const transInput = transformInputAndApplyDecriptionKey(input, decriptionKey);
+	const resultArr = input.map((el, index) => ({ [index]: el * decriptionKey }));
 
-      const currIndex = resultArr.findIndex(el => parseInt(Object.keys(el)[0]) === parseInt(key));
-      const newIndex = currIndex + value;
-      const normalizedNewIndex = computeNewIndex(newIndex, resultArr.length);
-      const el = resultArr.splice(currIndex, 1);
-      resultArr.splice(normalizedNewIndex, 0, el[0]);
+	for (let j = 0; j <= 9; j++) {
+		for (let i = 0; i <= resultArr.length - 1; i++) {
+			const value = transInput[i];
+			const key = i;
 
-    }
-  }
-  const zeroIndex = resultArr.findIndex(el => parseInt(Object.values(el)[0]) === 0);
+			const currIndex = resultArr.findIndex(el => parseInt(Object.keys(el)[0]) === parseInt(key));
+			const newIndex = currIndex + value;
+			const normalizedNewIndex = computeNewIndex(newIndex, resultArr.length);
+			const el = resultArr.splice(currIndex, 1);
+			resultArr.splice(normalizedNewIndex, 0, el[0]);
 
-  return computeResult(zeroIndex, resultArr, resultArr.length);
+		}
+	}
+	const zeroIndex = resultArr.findIndex(el => parseInt(Object.values(el)[0]) === 0);
+
+	return computeResult(zeroIndex, resultArr, resultArr.length);
 
 }
 
-console.log(partTwo(exampleInput));
-console.log(partTwo(realInput));
+console.log("PART 2 - example: ", partTwo(exampleInput));
+console.log("PART 2 - real: ", partTwo(realInput));
