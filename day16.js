@@ -10,6 +10,7 @@ const exampleInput = [
 	"Valve II has flow rate=0; tunnels lead to valves AA, JJ",
 	"Valve JJ has flow rate=21; tunnel leads to valve II",
 ];
+
 const realInput = [
 	"Valve JI has flow rate=21; tunnels lead to valves WI, XG",
 	"Valve DM has flow rate=3; tunnels lead to valves JX, NG, AW, BY, PF",
@@ -72,53 +73,82 @@ const realInput = [
 // Puzzle 1
 
 const extractInput = input => {
-	const valves = input.map(line => {
+	const valvesMap = {};
+	input.forEach(line => {
 		//use regex to capture the data
 		const regex1 = /Valve (\w+) has flow rate=(\d+)/;
 		const matches1 = line.match(regex1);
 		const regex2 = /([A-Z]{2})/g;
 		const matches2 = line.match(regex2).filter((_, index) => index > 0);
 
-		return {
-			name: matches1[1],
+		valvesMap[matches1[1]] = {
 			flowRate: Number(matches1[2]),
 			tunnels: matches2,
 		};
 	});
-	return valves;
+	return valvesMap;
 };
+
+const memoize = fn => {
+	let cache = {};
+	return (...args) => {
+		const valve = args[0];
+		const minSpent = args[1];
+		const valvesOpened = [...args[2]].sort().join("");
+		const key = `${valve}-${minSpent}-${valvesOpened}`;
+		if (key in cache) {
+			return cache[key];
+		} else {
+			let result = fn(...args);
+			cache[key] = result;
+			return result;
+		}
+	};
+};
+
+const getBiggestFlowRate = memoize((start, minutesSpent, valvesOpened, valves) => {
+	if (minutesSpent >= 30) {
+		return 0;
+	}
+	let biggestComposedFlowRate = 0;
+
+	const currentValve = valves[start];
+	const totalValveFlowRate = currentValve.flowRate * (30 - (minutesSpent + 1));
+
+	for (const tunnel of currentValve.tunnels) {
+		if (currentValve.flowRate > 0 && !valvesOpened.has(start)) {
+			const flowRate = getBiggestFlowRate(
+				tunnel,
+				minutesSpent + 2,
+				new Set([...valvesOpened, start]),
+				valves
+			);
+			biggestComposedFlowRate = Math.max(
+				biggestComposedFlowRate,
+				totalValveFlowRate + flowRate
+			);
+		}
+		const flowRate = getBiggestFlowRate(
+			tunnel,
+			minutesSpent + 1,
+			new Set(valvesOpened),
+			valves
+		);
+		biggestComposedFlowRate = Math.max(biggestComposedFlowRate, flowRate);
+	}
+
+	return biggestComposedFlowRate;
+});
 
 const partOne = input => {
 	const valves = extractInput(input);
-
-	// Goal: Most pressure (total flow rate) in 30 minutes
-	// Opening a valve   = 1 minute
-	// Moving in tunnels = 1 minute
-	// Starting a valve AA
-
-	// To this with dijkstra's algorithm
-	// 1. Create a graph with all the valves and tunnels
-	// 2. Create a priority queue with the starting valve
-	// 3. While the queue is not empty and the time is less than 30
-	// 3.1 Get the valve with the highest flow rate
-	// 3.2 Add 1 minute to the time
-	// 3.3 Add the flow rate to the total
-	// 3.4 If valve flow rate is greater than 0, open the valve and so add 1 minute to the time
-	// 3.5 Set the flow rate of the valve to 0 and add it to the closed valves
-	// 3.6 Add the tunnels to the queue
-	// 4. Return the total
-
+	return getBiggestFlowRate("AA", 0, new Set(), valves);
 };
 
-console.log("File: compute.js, Line 35 partOne: ", partOne(exampleInput));
+// Since we use memoization, we have to comment the example run to get the correct answer for the real input
+// console.log("File: compute.js, Line 35 partOne: ", partOne(exampleInput));
+console.log("File: compute.js, Line 36 partOne: ", partOne(realInput));
 
-// Results puzzle 1
-const a = "";
-console.log("Part 1 example: ", a);
-console.log("Part 1 real: ", a);
-
-// Puzzle 2
-
-// Results puzzle 2
-console.log("Part 2 example: ", a);
-console.log("Part 2 real: ", a);
+// LESSONS LEARNED: Memoization is a must for this problem. Without it, the code will run for a long time.
+// I learned how to memoize a recursive function in javascript (same as lru_cache from functools in python).
+// I also had to use a Set to store the valves opened, because the order of the valves opened is not important.
